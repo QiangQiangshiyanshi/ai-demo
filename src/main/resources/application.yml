@@ -1,0 +1,23 @@
+mcp:
+  url: http://localhost:8081/query
+
+prometheus:
+  url: http://10.153.255.4:9090
+# = "http://10.153.255.4:9090/api/v1/query";
+server:
+  port: 8080
+
+grafana:
+  url: http://localhost:3000/d/your-id/nlq-panel
+
+4o-mini:
+  url: https://azure-openai-devops-beta-01.ope
+  key: DYOBizWFZDE1aj
+spring:
+  ai:
+    mcp:
+      client:
+        sse:
+          connections:
+            externalServer:
+              url: http://external-mcp-server.com/mcp
