@@ -15,12 +15,12 @@ public class MCPService {
     private final RestTemplate restTemplate;
     private final MCPConfig config;
 
-    public MCPService(MCPConfig config) {
+    public MCPService(MCPConfig config, RestTemplate restTemplate) {
         this.config = config;
-        this.restTemplate = new RestTemplate();
+        this.restTemplate = restTemplate;
     }
 
-    @Retryable(maxAttempts = 3)
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 1000))
     public Map<String, Object> query(String query) {
         log.info("Sending MCP query: {}", query);
 
@@ -39,8 +39,13 @@ public class MCPService {
                     entity,
                     Map.class
             );
-            log.info("Received response from MCP service");
-            return response.getBody();
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                log.info("Received response from MCP service");
+                return response.getBody();
+            } else {
+                throw new RuntimeException("Invalid response from MCP service");
+            }
         } catch (Exception e) {
             log.error("MCP query failed", e);
             throw new RuntimeException("MCP查询失败: " + e.getMessage());

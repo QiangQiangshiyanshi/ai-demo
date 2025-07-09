@@ -1,23 +1,15 @@
-mcp:
-  url: http://localhost:8081/query
-
-prometheus:
-  url: http://10.153.255.4:9090
-# = "http://10.153.255.4:9090/api/v1/query";
 server:
   port: 8080
 
-grafana:
-  url: http://localhost:3000/d/your-id/nlq-panel
+ai:
+  url: ${AI_API_URL:https://api.4o.chat/v1}  # 修改为正确的4o-mini API地址
+  key: ${AI_API_KEY:your-api-key}  # 使用环境变量
 
-4o-mini:
-  url: https://azure-openai-devops-beta-01.ope
-  key: DYOBizWFZDE1aj
-spring:
-  ai:
-    mcp:
-      client:
-        sse:
-          connections:
-            externalServer:
-              url: http://external-mcp-server.com/mcp
+mcp:
+  url: ${MCP_URL:http://localhost:8081/mcp/query}  # 修改为正确的MCP服务地址
+
+logging:
+  level:
+    com.example.aidemo: DEBUG
+  file:
+    name: logs/ai-demo.log  # 添加日志文件配置
